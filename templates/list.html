@@ -1,0 +1,7 @@
+<ul>
+    {% for r in results %}
+        <li>
+        <h2>Title: {{ r['title'] }}</h2>
+        <h3>Ingredients: {{ r['ingredients'] }}</h3></li>
+    {% endfor %}
+</ul>
