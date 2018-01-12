@@ -42,17 +42,17 @@ def enterData():
 @app.route('/result',methods = ['POST', 'GET'])
 def displayData():
     if request.method == 'POST':
-        #result = request.args
-        ingredient = request.form['ingredient']
+        ingredient = request.form['ingredient'] #use the value assigned to the name attribute of the textbox in the enterData function above
         baseurl = "http://www.recipepuppy.com/api/?"
         params = {}
         params['i'] = ingredient
-        #print("\n\nINGREDIENT", ingredient)
-        #params['limit'] = result.get('num')
-        #params = {"i": result.get("")}
         response_obj = requests.get(baseurl, params = params)
         response_dict = json.loads(response_obj.text)
-        return render_template('list.html', results = response_dict["results"])
+        recipe_titles = []
+        for item in response_dict['results']:
+            recipe_titles.append(item['title'])
+        all_titles = "<br>".join(recipe_titles)
+        return all_titles
 
 ## Task 4
 ## Note : Since this is a dyanmic URL, recipes function should recieve a paramter called `ingredient`
@@ -61,12 +61,13 @@ def recipes(ingredient):
     baseurl = "http://www.recipepuppy.com/api/?"
     params = {}
     params['i'] = ingredient
-    #print("\n\nINGREDIENT", ingredient)
-    #params['limit'] = result.get('num')
-    #params = {"i": result.get("")}
     response_obj = requests.get(baseurl, params = params)
     response_dict = json.loads(response_obj.text)
-    return render_template('list.html', results = response_dict["results"])
+    recipe_titles = []
+    for item in response_dict['results']:
+        recipe_titles.append(item['title'])
+    all_titles = "<br>".join(recipe_titles)
+    return all_titles
 
 if __name__ == '__main__':
     app.run()
